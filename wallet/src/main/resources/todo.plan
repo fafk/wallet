@@ -1,0 +1,9 @@
+encrypt DB
+require password
+port TezosJ send/receive/functions and upload to maven central as a package
+- avoid unchainable setters
+- avoid generic exceptions
+allow async and sync operations
+
+
+DONE simple API to read balances without any ceremony

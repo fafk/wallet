@@ -1,0 +1,26 @@
+.root {
+    -fx-font-size: 14px;
+    -fx-font-family: Courier;
+}
+
+.tab-label {
+    -fx-font-size: 14px;
+    -fx-font-family: Courier;
+}
+
+.table-column {
+    -fx-alignment: CENTER;
+}
+
+.tab{
+    -fx-background-color: white;
+}
+
+.tab-header-area {
+    -fx-border-color: red;
+}
+
+.tab-header-background {
+
+    -fx-border-color: white;
+}
