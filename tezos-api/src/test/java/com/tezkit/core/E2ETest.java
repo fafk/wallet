@@ -16,7 +16,9 @@ public class E2ETest {
 
     @Test
     public void realSendTest() throws TezosRPCException {
-        new TezosAPI().send(
-                keys, "tz1UPm1EoC7ZQ6EGHZ5LuHf37NnBrSixwgzq", new BigInteger("1"));
+        // This tx with 0 fee is not likely to be included in a block
+        new TezosAPI()
+                .setDefaultFee(BigInteger.valueOf(0))
+                .send(keys, "tz1UPm1EoC7ZQ6EGHZ5LuHf37NnBrSixwgzq", new BigInteger("1"));
     }
 }
