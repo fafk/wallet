@@ -3,7 +3,7 @@
 # Lombok
 
 This project uses lombok. You might want to install the IntellJ plugin for it and enable annotation
-processing under Preferences -> Build, Execution, Deployment -> Compiler, Annotation Processors -> Enable Annotation Processing.
+processing under `Preferences -> Build, Execution, Deployment -> Compiler, Annotation Processors -> Enable Annotation Processing`.
 
 ## Fat jar
 `mvn clean compile package`
