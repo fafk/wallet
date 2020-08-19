@@ -1,5 +1,6 @@
 package com.tezkit.wallet.state;
 
+import com.tezkit.core.network.ExchangeRate;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -15,6 +16,7 @@ public class AppState {
     @With final private String passwordValidationMsg;
     @With final private String chosenPassword;
     @With final private CurrentWalletState currentWalletState;
+    @With final private ExchangeRate exchangeRate;
 
     /**
      * Initialize the app state.

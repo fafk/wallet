@@ -13,56 +13,56 @@ public class TezosRPC {
      * Get the latest block of the blockchain.
      * @param nodeUrl URL of the node to query.
      * @return block data transfer object
-     * @throws TezosRPCException failed query
+     * @throws RPCException failed query
      */
-    public static BlockDTO getHeadBlock(String nodeUrl) throws TezosRPCException {
+    public static BlockDTO getHeadBlock(String nodeUrl) throws RPCException {
         try {
             return new ObjectMapper().readValue(
                     Network.get(buildHeadBlockUrl(nodeUrl)).body(),
                     BlockDTO.class);
         } catch (Exception e) {
-            throw new TezosRPCException("Failed to get block: " + e.toString());
+            throw new RPCException("Failed to get block: " + e.toString());
         }
     }
 
     /**
-     * Get the balance and operation counter by an address (public key hash) by a certain block.
+     * Get the balance and operation counter by an destination (public key hash) by a certain block.
      *
      * @param nodeUrl URL of a node to query
      * @param blockHash block hash as a point in time for this account state
-     * @param address address of the account (such as "tz1VeaJWkdr2m5YaKFgeAafenhHhDcMxWfHC")
+     * @param address destination of the account (such as "tz1VeaJWkdr2m5YaKFgeAafenhHhDcMxWfHC")
      * @return account data transfer object
-     * @throws TezosRPCException failed query
+     * @throws RPCException failed query
      */
     public static AccountDTO accountStateInBlock(String nodeUrl, String blockHash, String address)
-    throws TezosRPCException {
+    throws RPCException {
         try {
             return new ObjectMapper().readValue(
                     Network.get(buildAccountForBlock(nodeUrl, blockHash, address)).body(),
                     AccountDTO.class);
         } catch (Exception e) {
-            throw new TezosRPCException("Cannot get account for block: " + e.toString());
+            throw new RPCException("Cannot get account for block: " + e.toString());
         }
     }
 
     /**
-     * Get public key associated with a public key hash (an address).
+     * Get public key associated with a public key hash (an destination).
      *
      * @param nodeUrl URL of the node to query
      * @param blockHash block hash capturing the point in the blockchain state
-     * @param address address of the account (such as "tz1VeaJWkdr2m5YaKFgeAafenhHhDcMxWfHC")
+     * @param address destination of the account (such as "tz1VeaJWkdr2m5YaKFgeAafenhHhDcMxWfHC")
      * @return null or pubkey as json (`"edpktrYQdsQHZfHmRWS7QzbnVb43L1gTH8is3aXyDokcySxJmB8wbX"`)
      * which we cast into an Optional of string
      */
     public static Optional<String> getManagerKey(String nodeUrl, String blockHash, String address)
-    throws TezosRPCException {
+    throws RPCException {
         try {
             var result = new ObjectMapper().readValue(
                     Network.get(buildManagerKey(nodeUrl, blockHash, address)).body(),
                     String.class);
             return result == null ? Optional.empty() : Optional.of(result);
         } catch (Exception e) {
-            throw new TezosRPCException("Cannot get manager key: " + e.toString());
+            throw new RPCException("Cannot get manager key: " + e.toString());
         }
     }
 
@@ -72,10 +72,10 @@ public class TezosRPC {
      * @param nodeUrl URL of the node to query
      * @param transaction encoded (= forged) transaction
      * @return a hash of the submitted transaction
-     * @throws TezosRPCException failed query
+     * @throws RPCException failed query
      */
     public static String injectOperations(String nodeUrl, String transaction)
-    throws TezosRPCException {
+    throws RPCException {
         try {
             var response = Network.post(
                     nodeUrl + "/injection/operation?chain=main",
@@ -83,7 +83,7 @@ public class TezosRPC {
                     .body();
             return new ObjectMapper().readValue(response, String.class);
         } catch (Exception e) {
-            throw new TezosRPCException("Failed serializing operation: " + e.toString());
+            throw new RPCException("Failed serializing operation: " + e.toString());
         }
     }
 
@@ -92,13 +92,13 @@ public class TezosRPC {
      * injected to the blockchain.
      *
      * @param nodeUrl URL of the node to query
-     * @param operations operations to encode
+     * @param operations operations to encodeOperation
      * @return encoded operations
-     * @throws TezosRPCException failed query
+     * @throws RPCException failed query
      */
     public static String forgeOperations(
             String nodeUrl, String blockHash, List<HashMap<String, String>> operations)
-    throws TezosRPCException {
+    throws RPCException {
         var payload = new HashMap();
         payload.put("branch", blockHash);
         payload.put("contents", operations);

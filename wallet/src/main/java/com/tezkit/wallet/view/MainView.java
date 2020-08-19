@@ -4,112 +4,55 @@ import com.netopyr.reduxfx.fxml.Dispatcher;
 import com.netopyr.reduxfx.fxml.Selector;
 import com.tezkit.wallet.actions.Actions;
 import com.tezkit.wallet.state.AppState;
-import javafx.beans.binding.Bindings;
-import javafx.collections.FXCollections;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.chart.StackedAreaChart;
-import javafx.scene.chart.XYChart;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.text.Text;
-import lombok.Builder;
-import lombok.Data;
-import org.springframework.beans.factory.annotation.Autowired;
+import javafx.scene.Parent;
+import javafx.scene.control.MenuItem;
+import javafx.scene.control.ScrollPane;
+import lombok.Setter;
 import org.springframework.stereotype.Controller;
 
 @Controller
-public class MainView {
-    private final Dispatcher dispatcher;
-    private final Selector<AppState> selector;
+public class MainView extends Parent {
+
+    protected Dispatcher dispatcher;
+    protected Selector<AppState> selector;
+    protected ViewLoader viewLoader;
+
+    @Setter
+    private String contentFxml;
+    @Setter
+    private Class contentController;
 
     @FXML
-    private Text lblWalletBalance;
+    private MenuItem menuAccount, menuExit;
 
     @FXML
-    private StackedAreaChart<String, Number> chartBalanceHistory;
+    protected ScrollPane contentArea;
 
-    @FXML
-    private ComboBox comboReceiver;
-
-    @FXML
-    private TableView tableRecentTransactions;
-
-    @Autowired
-    public MainView(Dispatcher dispatcher, Selector<AppState> selector) {
+    public MainView(Dispatcher dispatcher, Selector<AppState> selector, ViewLoader viewLoader) {
         this.dispatcher = dispatcher;
         this.selector = selector;
+        this.viewLoader = viewLoader;
     }
 
     /**
-     * The method {@code initialize} is used to define the bindings that map the application state
-     * to the view.
+     * The main view is a layout template.
+     * `contentFxml` FXML is loaded into a scroll pane, controlled by `contentController`
+     * It's required that these properties are set before loading the screen!
      */
     public void initialize() {
-        comboReceiver.setItems(FXCollections.observableArrayList(
-                "Adam Smith", "Olivia Stone", "Peter Pan"));
-
-        lblWalletBalance.textProperty().bind(
-                Bindings.format(
-                        "%.2f XTZ",
-                        selector.select((state) -> {
-                            if (state.getCurrentWalletState() == null) return "...";
-                            return state.getCurrentWalletState().getBalance();
-                        })
-                )
-        );
-//        ObservableValue<Integer> obs = selector.select(AppState::getCounter);
-//        obs.addListener((o, oldVal, newVal) -> {
-//            System.out.println("Electric bill has changed!");
-//            value.setText("you click x times: " + (Integer) newVal);
-//        });
-
-
-        XYChart.Series series1 = new XYChart.Series();
-//        series1.getNode().relo
-        series1.setName("Balance Over Time");
-        series1.getData().add(new XYChart.Data(0, 10));
-        series1.getData().add(new XYChart.Data(10, 20));
-        series1.getData().add(new XYChart.Data(20, 15));
-        series1.getData().add(new XYChart.Data(30, 10));
-        series1.getData().add(new XYChart.Data(40, 15));
-        series1.getData().add(new XYChart.Data(50, 25));
-        series1.getData().add(new XYChart.Data(60, 30));
-        chartBalanceHistory.getData().addAll(series1);
-
-        ((TableColumn) tableRecentTransactions.getColumns().get(0)).setCellValueFactory(new PropertyValueFactory("type"));
-        ((TableColumn) tableRecentTransactions.getColumns().get(1)).setCellValueFactory(new PropertyValueFactory("date"));
-        ((TableColumn) tableRecentTransactions.getColumns().get(2)).setCellValueFactory(new PropertyValueFactory("to"));
-        ((TableColumn) tableRecentTransactions.getColumns().get(3)).setCellValueFactory(new PropertyValueFactory("amount"));
-        var rec = TxRecord.builder()
-                .amount("100")
-                .date("2020/1/1")
-                .to("tz1TGWQojBNZCuLkkdwXpFigdDL8PFiP8EsA")
-                .type("IN")
-                .build();
-        var rec2 = TxRecord.builder()
-                .amount("20")
-                .date("2020/1/2")
-                .to("tz1N9dysSpzApajX2bZH1Y1bCchP4GEwLV1c")
-                .type("OUT")
-                .build();
-        tableRecentTransactions.setItems(FXCollections.observableArrayList(rec, rec2));
-
+        contentArea.setContent(viewLoader.loadView(contentFxml, contentController));
+        contentArea.setPannable(true);
 
         dispatcher.dispatch(Actions.mainViewInitialized());
     }
 
-    public void increase() {
-        dispatcher.dispatch(Actions.incCounterAction());
+    @FXML
+    private void handleButtonClick(ActionEvent event) {
+        if (event.getSource() == menuExit) {
+            System.exit(0);
+        }
     }
 
-    @Data
-    @Builder
-    public static class TxRecord {
-        private String to;
-        private String date;
-        private String amount;
-        private String type;
-    }
 }

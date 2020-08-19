@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.Pane?>
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
-      prefHeight="700.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/11.0.1"
+      prefHeight="612.0" prefWidth="931.0" xmlns="http://javafx.com/javafx/11.0.1"
       xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.tezkit.wallet.view.NewWallet">
     <children>
         <PasswordField fx:id="txtMnemonicImport" layoutX="415.0" layoutY="216.0" prefHeight="27.0"

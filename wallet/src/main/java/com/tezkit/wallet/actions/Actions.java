@@ -1,26 +1,17 @@
 package com.tezkit.wallet.actions;
 
+import com.tezkit.core.network.BalanceChange;
+import com.tezkit.core.network.ExchangeRate;
 import com.tezkit.wallet.updater.Updater;
 import lombok.Data;
+
+import java.math.BigInteger;
+import java.util.List;
 
 @Data
 public class Actions {
 
-    // IncCounterAction is stateless, therefore only a single instance can be reused
-    private static final IncCounterAction INC_COUNTER_ACTION = new IncCounterAction();
-
     private Actions() { }
-
-    /**
-     * This method returns a {@link IncCounterAction}.
-     * <p>
-     * This action is passed to the {@link Updater} when the user clicks the button
-     *
-     * @return the {@code IncCounterAction}
-     */
-    public static IncCounterAction incCounterAction() {
-        return INC_COUNTER_ACTION;
-    }
 
     public static AppReadyToStartAction appReadyToStart() {
         return new AppReadyToStartAction();
@@ -44,5 +35,18 @@ public class Actions {
 
     public static MainViewIntializedAction mainViewInitialized() {
         return new MainViewIntializedAction();
+    }
+
+    public static BalanceLoadedAction balanceLoaded(String address, BigInteger balance) {
+        return new BalanceLoadedAction(address, balance);
+    }
+
+    public static BalanceHistoryLoadedAction balanceHistoryLoaded(
+            String address, List<BalanceChange> changes) {
+       return new BalanceHistoryLoadedAction(address, changes);
+    }
+
+    public static ExchangeRateLoadedAction exchangeRateLoaded(ExchangeRate rate) {
+       return new ExchangeRateLoadedAction(rate);
     }
 }

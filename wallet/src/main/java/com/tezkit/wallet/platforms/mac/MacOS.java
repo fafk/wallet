@@ -13,7 +13,7 @@ public class MacOS {
 
     static void setDockIcon() {
         final Toolkit defaultToolkit = Toolkit.getDefaultToolkit();
-        final URL imageResource = Main.class.getResource("/dock.png");
+        final URL imageResource = Main.class.getResource("/icons/Logo-white@2x.png");
         final java.awt.Image image = defaultToolkit.getImage(imageResource);
 
         //this is new since JDK 9

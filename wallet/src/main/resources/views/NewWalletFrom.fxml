@@ -3,9 +3,9 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.layout.Pane?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.tezkit.wallet.view.NewWallet">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="612.0" prefWidth="931.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.tezkit.wallet.view.NewWallet">
    <children>
-      <Button layoutX="424.0" layoutY="284.0" mnemonicParsing="false" onAction="#onGenerateNewWalletSelected" prefHeight="55.0" prefWidth="353.0" text="Generate New Wallet" />
-      <Button layoutX="424.0" layoutY="361.0" mnemonicParsing="false" onAction="#onGenerateFromMnemonicSelected" prefHeight="55.0" prefWidth="353.0" text="Import From Mnemonic Phrase" />
+      <Button layoutX="289.0" layoutY="240.0" mnemonicParsing="false" onAction="#onGenerateNewWalletSelected" prefHeight="55.0" prefWidth="353.0" text="Generate New Wallet" />
+      <Button layoutX="289.0" layoutY="317.0" mnemonicParsing="false" onAction="#onGenerateFromMnemonicSelected" prefHeight="55.0" prefWidth="353.0" text="Import From Mnemonic Phrase" />
    </children>
 </Pane>

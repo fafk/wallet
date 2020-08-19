@@ -2,16 +2,15 @@ package com.tezkit.core;
 
 import com.tezkit.core.crypto.KeyHolder;
 import com.tezkit.core.crypto.Signer;
-import com.tezkit.core.crypto.Operations;
 import com.tezkit.core.network.TezosRPC;
-import com.tezkit.core.network.TezosRPCException;
+import com.tezkit.core.network.RPCException;
+import com.tezkit.core.tezos.Forger;
+import com.tezkit.core.tezos.operations.*;
 import lombok.Builder;
 import lombok.Data;
-import org.bitcoinj.core.Base58;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import static org.bitcoinj.core.Utils.HEX;
@@ -25,16 +24,16 @@ public class Sender {
      * Transfer XTZ between accounts. Reveals the public key of the sender if it hasn't been done.
      *
      * @param nodeUrl URL of the node to query
-     * @param from TezosKeys for the sender account
-     * @param to public key hash (address) of the receiver
-     * @param amount amount in micro tez (10e-6 XTZ)
-     * @param fee fee in micro tez
+     * @param from    TezosKeys for the sender account
+     * @param to      public key hash (destination) of the receiver
+     * @param amount  amount in micro tez (10e-6 XTZ)
+     * @param fee     fee in micro tez
      * @return hash of a successfully submitted operation returned by node
-     * @throws TezosRPCException communication with node failed
+     * @throws RPCException communication with node failed
      */
     static public String send(
             String nodeUrl, KeyHolder from, String to, BigInteger amount, BigInteger fee)
-    throws TezosRPCException {
+    throws RPCException {
         var params = TransferParams.builder().amount(amount).fee(fee).senderKeys(from).to(to).build();
         var signedOperations = buildOperationPayload(nodeUrl, params);
 
@@ -47,13 +46,13 @@ public class Sender {
      * @param nodeUrl node to query
      * @param params  operation params such as fee and limits
      * @return Signed operation payload
-     * @throws TezosRPCException communication with node failed
+     * @throws RPCException communication with node failed
      */
     private static Signer.SignedData buildOperationPayload(String nodeUrl, TransferParams params)
-    throws TezosRPCException {
+    throws RPCException {
         var blockHash = TezosRPC.getHeadBlock(nodeUrl).getHash();
         var operations = getTransferOps(nodeUrl, blockHash, params);
-        var forgedOperations = TezosRPC.forgeOperations(nodeUrl, blockHash, operations);
+        var forgedOperations = Forger.encodePayload(blockHash, operations);
         var privateKey = params.getSenderKeys().getPrivateKey();
 
         return Signer.sign(HEX.decode(forgedOperations), privateKey, "03");
@@ -67,31 +66,32 @@ public class Sender {
      * @param blockHash latest known block hash
      * @param params    operation params such as fee and limits
      * @return array of operations
-     * @throws TezosRPCException communication with node failed
+     * @throws RPCException communication with node failed
      */
-    private static ArrayList<HashMap<String, String>> getTransferOps(
+    private static List<? extends Operation> getTransferOps(
             String nodeUrl, String blockHash, TransferParams params)
-    throws TezosRPCException {
+    throws RPCException {
         var operations = new ArrayList();
         var pubKeyHash = params.getSenderKeys().getPublicKeyHash();
         var account = TezosRPC.accountStateInBlock(nodeUrl, blockHash, pubKeyHash);
-        var counter = Integer.parseInt(account.getCounter()) + 1;
+        var counter = new BigInteger(account.getCounter()).add(BigInteger.valueOf(1));
 
         if (!isRevealed(nodeUrl, pubKeyHash, blockHash)) {
-            var pubKeyBytes = Base58.encode(params.getSenderKeys().getPublicKey()).getBytes();
-            var encodedPubKey = new String(pubKeyBytes);
-            var reveal = Operations.revealWithDefaults(pubKeyHash, encodedPubKey, counter);
-            var transfer = Operations.transferWithDefaults(
-                    pubKeyHash, params.getTo(), params.getAmount(), counter + 1);
-            transfer.put("fee", params.getFee().toString());
-
-            operations.addAll(List.of(reveal, transfer));
-        } else {
-            var transfer = Operations.transferWithDefaults(
-                    pubKeyHash, params.getTo(), params.getAmount(), counter);
-            transfer.put("fee", params.getFee().toString());
-            operations.add(transfer);
+            operations.add(Reveal.builder()
+                    .counter(counter)
+                    .fee(params.getFee())
+                    .publicKey(params.getSenderKeys().getPublicKey())
+                    .source(pubKeyHash)
+                    .build());
+            counter = counter.add(BigInteger.valueOf(1));
         }
+        operations.add(Transaction.builder()
+                .amount(params.getAmount())
+                .counter(counter)
+                .destination(params.getTo())
+                .fee(params.getFee())
+                .source(pubKeyHash)
+                .build());
 
         return operations;
     }
@@ -104,10 +104,10 @@ public class Sender {
      * @param address   Public key hash (e.g. "tz1SiPXX4MYGNJNDsRc7n8hkvUqFzg8xqF9m") of the account
      * @param blockHash Block hash such as "BKsZChoQiQbHSTXoRWBqHZNgAdqP1Jz5aRuBDnckecQ2fudvxMc"
      * @return Public key has/has not been revealed
-     * @throws TezosRPCException communication with node failed
+     * @throws RPCException communication with node failed
      */
     private static boolean isRevealed(String nodeUrl, String address, String blockHash)
-    throws TezosRPCException {
+    throws RPCException {
         return TezosRPC.getManagerKey(nodeUrl, blockHash, address).isPresent();
     }
 

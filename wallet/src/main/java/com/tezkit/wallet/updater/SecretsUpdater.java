@@ -1,89 +1,68 @@
 package com.tezkit.wallet.updater;
 
+import com.netopyr.reduxfx.fxml.Dispatcher;
+import com.tezkit.core.KeysAPI;
+import com.tezkit.core.TezosAPI;
 import com.tezkit.wallet.actions.ImportMnemonicAction;
 import com.tezkit.wallet.persistence.Wallet;
 import com.tezkit.wallet.persistence.WalletDAO;
 import com.tezkit.wallet.state.AppState;
 import com.tezkit.wallet.state.CurrentWalletState;
 import com.tezkit.wallet.state.TezkitScreen;
-import milfont.com.tezosj.model.TezosWallet;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 @Component
 public class SecretsUpdater {
 
-    private final String DEFAULT_PASSWORD = "empty";
+    private final String DEFAULT_PASSWORD = "";
     private WalletDAO walletDAO;
+    private Dispatcher dispatcher;
+    private TezosAPI tezosAPI;
 
     @Autowired
-    public SecretsUpdater(WalletDAO walletDAO) {
+    public SecretsUpdater(WalletDAO walletDAO, @Lazy Dispatcher dispatcher, TezosAPI tezosAPI) {
         this.walletDAO = walletDAO;
+        this.dispatcher = dispatcher;
+        this.tezosAPI = tezosAPI;
     }
 
-//    static public AppState choosePassword(AppState state, PasswordEnteredAction action) {
-//        return state
-//                .withChosenPassword(action.getPassword())
-//                .withTezkitScreen(TezkitScreen.CONFIRM_PASSWORD);
-//    }
-//
-//    public static AppState confirmPassword(AppState state, PasswordConfirmationAction action) {
-//        var newState = state.withPasswordValidationMsg("");
-//
-//        if (action.getPassword().equals(state.getChosenPassword())) {
-//            return newState.withTezkitScreen(TezkitScreen.NEW_WALLET_FROM);
-//        } else {
-//            return newState.withPasswordValidationMsg("Passwords don't match.");
-//        }
-//    }
 
     public AppState importMnemonic(AppState state, ImportMnemonicAction stateAction) {
         var mnemonic = stateAction.getMnemonic();
         var password = stateAction.getPassword();
-        TezosWallet wallet;
-        try {
-            wallet = new TezosWallet(mnemonic, password);
-            wallet.setProvider("https://mainnet-tezos.giganode.io");
-        } catch (Exception e) {
-            e.printStackTrace();
-            return state;
-            // TODO handle bad input
-        }
+        var keys = KeysAPI.keysFromMnemonic(List.of(mnemonic.split(" ")), password);
 
         walletDAO.insertWallet(Wallet.builder().mnemonic(mnemonic).password(password).build());
 
         return state
-                .withTezkitScreen(TezkitScreen.MAIN_VIEW)
+                .withTezkitScreen(TezkitScreen.DASHBOARD)
                 .withCurrentWalletState(
                         CurrentWalletState
                                 .builder()
-//                                .mnemonic(stateAction.getMnemonic())
-                                .tezosWallet(wallet)
+                                .keys(keys)
                                 .build());
     }
 
     public AppState newWallet(AppState state) {
-        TezosWallet wallet;
-        try {
-            wallet = new TezosWallet(DEFAULT_PASSWORD);
-            wallet.setProvider("https://mainnet-tezos.giganode.io");
-        } catch (Exception e) {
-            // TODO handle properly
-            e.printStackTrace();
-            throw new RuntimeException();
-        }
+        var mnemonic = KeysAPI.generateMnemonic();
+        var keys = KeysAPI.keysFromMnemonic(mnemonic, DEFAULT_PASSWORD);
 
         walletDAO.insertWallet(
                 Wallet.builder()
-                        .mnemonic(wallet.getMnemonicWords())
+                        .mnemonic(String.join(" ", mnemonic))
                         .password(DEFAULT_PASSWORD)
                         .build());
 
         return state
-                .withTezkitScreen(TezkitScreen.MAIN_VIEW)
+                .withTezkitScreen(TezkitScreen.DASHBOARD)
                 .withCurrentWalletState(CurrentWalletState
                         .builder()
-                        .tezosWallet(wallet)
+                        .keys(keys)
                         .build());
     }
+
 }

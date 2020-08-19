@@ -8,5 +8,7 @@ public enum TezkitScreen {
     MNEMONIC_DISPLAY,
     CONFIRM_MNEMONIC,
     ENTER_PASSWORD,
-    MAIN_VIEW,
+    DASHBOARD,
+    SEND,
+    RECEIVE,
 }

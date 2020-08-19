@@ -46,7 +46,7 @@ public class Signer {
         sodium.crypto_sign_detached(
                 sig, null, hashedWorkBytes, hashedWorkBytes.length, privateKeyBytes);
 
-        // Crate edsig by encoding (edsig_prefix + sig).
+        // Create edsig by encoding (edsig_prefix + sig).
         // `sbytes` will be the concatenation of bytes (in hex) + sig (in hex).
         byte[] edsigPrefixedSig;
         edsigPrefixedSig = addAll(edsigPrefix, sig);
@@ -55,7 +55,7 @@ public class Signer {
         return SignedData.builder()
                 .bytes(HEX.encode(bytes))
                 .sig(HEX.encode(sig))
-                .edsig(TezosBase58.encode(edsigPrefixedSig))
+                .edsig(Base58Check.encode(edsigPrefixedSig))
                 .sbytes(sbytes)
                 .build();
     }

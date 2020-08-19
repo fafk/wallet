@@ -28,11 +28,14 @@ public class Updater {
 
     private BootstrapUpdater bootstrapUpdater;
     private SecretsUpdater secretsUpdater;
+    private MainViewUpdater mainViewUpdater;
 
     @Autowired
-    public Updater(BootstrapUpdater bootstrapUpdater, SecretsUpdater secretsUpdater) {
+    public Updater(BootstrapUpdater bootstrapUpdater, SecretsUpdater secretsUpdater,
+            MainViewUpdater mainViewUpdater) {
         this.bootstrapUpdater = bootstrapUpdater;
         this.secretsUpdater = secretsUpdater;
+        this.mainViewUpdater = mainViewUpdater;
     }
 
     /**
@@ -65,15 +68,24 @@ public class Updater {
                 // We check which of the cases is true and in that branch we specify the newState.
                 Match(action).of(
                         Case($(instanceOf(AppReadyToStartAction.class)),
-                            stateAction -> bootstrapUpdater.bootstrap()),
+                                stateAction -> bootstrapUpdater.bootstrap()),
 
 //                        Case($(instanceOf(PasswordEnteredAction.class)),
 //                                stateAction -> SecretsUpdater.choosePassword(state, stateAction)),
 //                        Case($(instanceOf(PasswordConfirmationAction.class)),
 //                                stateAction -> SecretsUpdater.confirmPassword(state, stateAction)),
 
+                        Case($(instanceOf(BalanceLoadedAction.class)),
+                                stateAction -> MainViewUpdater.updateBalance(state, stateAction)),
+                        Case($(instanceOf(ExchangeRateLoadedAction.class)),
+                                stateAction -> MainViewUpdater.updateExchangeRate(state, stateAction)),
+
+                        Case($(instanceOf(BalanceHistoryLoadedAction.class)),
+                                stateAction -> MainViewUpdater.updateChanges(state, stateAction)),
+
                         Case($(instanceOf(MainViewIntializedAction.class)),
-                                stateAction -> MainViewUpdater.updateBalance(state)),
+                                stateAction -> mainViewUpdater.viewInitialized(state)),
+
 
                         Case($(instanceOf(ChosenMnemonicImportAction.class)),
                                 stateAction -> state.withTezkitScreen(TezkitScreen.IMPORT_PHRASE_WALLET)),

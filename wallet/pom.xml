@@ -6,7 +6,7 @@
 
     <groupId>com.tezkit</groupId>
     <artifactId>wallet</artifactId>
-<!--    <packaging>pom</packaging>-->
+    <!--    <packaging>pom</packaging>-->
     <version>0.0.1-SNAPSHOT</version>
 
     <build>
@@ -136,12 +136,6 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-api</artifactId>
-            <version>5.5.1</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
             <groupId>org.testfx</groupId>
             <artifactId>testfx-junit5</artifactId>
             <version>4.0.16-alpha</version>
@@ -168,6 +162,13 @@
             <version>2.1</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <version>5.5.1</version>
+            <scope>test</scope>
+        </dependency>
+
     </dependencies>
 
 </project>

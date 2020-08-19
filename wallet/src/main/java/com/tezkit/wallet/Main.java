@@ -7,10 +7,14 @@ import com.tezkit.wallet.configuration.Configs;
 import com.tezkit.wallet.platforms.mac.MacOS;
 import fr.brouillard.oss.cssfx.CSSFX;
 import javafx.application.Application;
+import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import lombok.Getter;
 import org.flywaydb.core.Flyway;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+
+import java.io.IOException;
 
 public class Main extends Application {
 

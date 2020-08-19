@@ -1,5 +1,6 @@
 package com.tezkit.wallet.configuration;
 
+import com.tezkit.core.TezosAPI;
 import org.flywaydb.core.Flyway;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.*;
@@ -34,6 +35,12 @@ public class Beans {
     @DependsOn({"dataSource"})
     public JdbcTemplate jdbcTemplate(DataSource dataSource) {
         return new JdbcTemplate(dataSource);
+    }
+
+    @Bean
+    public TezosAPI tezosAPI() {
+        var tezosAPI = new TezosAPI();
+        return tezosAPI.setNodeUrl("https://mainnet-tezos.giganode.io");
     }
 
 }

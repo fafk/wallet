@@ -23,7 +23,36 @@ public class ViewLoader implements ApplicationContextAware {
             return loader.load();
         } catch (IOException e) {
             e.printStackTrace();
-            throw new RuntimeException("Cannot load FXML file for stage!"); // TODO own ex class
+            throw new RuntimeException("Cannot load FXML file for stage: " + fxmlPath + e.toString()); // TODO own ex class
+        }
+    }
+
+    public Parent loadView(String fxmlPath, Class controller) {
+        try {
+            var loader = fxmlLoader();
+            loader.setLocation(getClass().getResource(fxmlPath));
+            loader.setController(loader.getControllerFactory().call(controller));
+            return loader.load();
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new RuntimeException("Cannot load FXML file for stage: " + fxmlPath + e.toString()); // TODO own ex class
+        }
+    }
+
+    public Parent loadInMainLayout(String fxmlPath, Class controller) {
+        var loader = fxmlLoader();
+        var mainController = applicationContext.getBean(MainView.class);
+        mainController.setContentController(controller);
+        mainController.setContentFxml(fxmlPath);
+
+        loader.setLocation(getClass().getResource("/views/MainLayout.fxml"));
+        loader.setController(mainController);
+
+        try {
+            return loader.load();
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new RuntimeException("Cannot load FXML file for stage: " + fxmlPath + e.toString()); // TODO own ex class
         }
     }
 

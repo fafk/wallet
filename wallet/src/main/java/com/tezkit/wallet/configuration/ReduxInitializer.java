@@ -9,6 +9,7 @@ import com.tezkit.wallet.state.AppState;
 import com.tezkit.wallet.updater.Updater;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Component;
 
 @Component

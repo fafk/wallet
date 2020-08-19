@@ -15,6 +15,8 @@ public class TezosKeys {
     public static final byte[] edpkPrefix = new byte[]{(byte) 13, (byte) 15, (byte) 37, (byte) 217};
     public static final byte[] edskPrefix = new byte[]{(byte) 43, (byte) 246, (byte) 78, (byte) 7};
     public static final byte[] tz1Prefix = new byte[]{(byte) 6, (byte) 161, (byte) 159};
+    public static final byte[] tz2Prefix = new byte[]{(byte) 6, (byte) 161, (byte) 161};
+    public static final byte[] tz3Prefix = new byte[]{(byte) 6, (byte) 161, (byte) 164};
 
     /**
      * Build a tezos public key hash from pure public key.
@@ -71,21 +73,39 @@ public class TezosKeys {
     }
 
     /**
+     * Get raw public key from a public key in tezos format. Strips the checksum and prefix.
+     * @param tezosPrivateKey key in tezos format
+     * @return raw key
+     */
+    static public byte[] rawKeyFromPublicKey(byte[] tezosPrivateKey) {
+        var keyWithoutChecksum = Base58Check.verifyAndRemoveChecksum(tezosPrivateKey);
+        return removePrefix(keyWithoutChecksum, edpkPrefix.length);
+    }
+
+    /**
+     * Remove the first `prefixLen` bytes from a byte array. The original array remains intact.
+     * @param bytes source bytes
+     * @param prefixLen how many bytes should be removed from the beginning
+     * @return a new array without the prefix
+     */
+    private static byte[] removePrefix(byte[] bytes, Integer prefixLen) {
+        var outputLen = bytes.length - prefixLen;
+        byte[] out = new byte[outputLen];
+        System.arraycopy(bytes, prefixLen, out, 0, outputLen);
+        return out;
+    }
+
+    /**
      * Get seed bytes from mnemonic and passphrase. The public and private keys are derived from it.
      *
      * @param mnemonicWords mnemonic words
-     * @param passphrase passphrase
+     * @param passphrase    passphrase
      * @return seed data to generate a public/private key pair
      */
     static public byte[] getSeedBytesFromMnemonic(
             List<String> mnemonicWords, String passphrase) {
 
-        byte[] src_seed;
-        try {
-            src_seed = new MnemonicCode().toSeed(mnemonicWords, passphrase);
-        } catch (IOException e) {
-            throw new RuntimeException("Mnemonic gen failed unexpectedly. " + e.toString());
-        }
+        byte[] src_seed = MnemonicCode.toSeed(mnemonicWords, passphrase);
         return Arrays.copyOfRange(src_seed, 0, 32);
     }
 

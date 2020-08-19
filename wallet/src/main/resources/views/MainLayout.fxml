@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.ProgressIndicator?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="AnchorPane" prefHeight="612.0" prefWidth="931.0" style="-fx-background-color: #ffffff; -fx-border-color: #A9ACAF; -fx-background-radius: 2px; -fx-border-radius: 2px;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" >
+    <children>
+        <BorderPane prefHeight="612.0" prefWidth="946.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <left>
+                <VBox prefHeight="610.0" prefWidth="222.0" style="-fx-background-color: #3E454C;" BorderPane.alignment="CENTER">
+                    <children>
+                        <HBox alignment="CENTER_LEFT" prefHeight="77.0" prefWidth="226.0" spacing="15.0" style="-fx-border-color: #54575A; -fx-border-width: 0 0 1 0;">
+                            <children>
+                                <ImageView fitHeight="23.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
+                                    <image>
+                                        <Image url="@../icons/Logo-white@2x.png" />
+                                    </image>
+                                </ImageView>
+                                <Label styleClass="label2" stylesheets="@../tezwallet_styling.css" text="TezKit" textFill="WHITE">
+                                    <font>
+                                        <Font size="18.0" />
+                                    </font>
+                                </Label>
+                            </children>
+                            <padding>
+                                <Insets left="25.0" />
+                            </padding>
+                        </HBox>
+                        <VBox prefHeight="116.0" prefWidth="202.0" style="-fx-border-color: #54575A; -fx-border-width: 0 0 1 0;">
+                            <children>
+                                <Button fx:id="btnSendFunds" alignment="BASELINE_LEFT" graphicTextGap="20.0" mnemonicParsing="false"  prefHeight="42.0" prefWidth="240.0" stylesheets="@../tezwallet_styling.css" text="Send Funds">
+                                    <graphic>
+                                        <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                                            <image>
+                                                <Image url="@../icons/arrow_from_bottom_regular@2x.png" />
+                                            </image>
+                                        </ImageView>
+                                    </graphic>
+                                    <padding>
+                                        <Insets left="25.0" />
+                                    </padding>
+                                </Button>
+                                <Button fx:id="btnReceiveFunds" alignment="BASELINE_LEFT" graphicTextGap="20.0" mnemonicParsing="false"  prefHeight="42.0" prefWidth="240.0" stylesheets="@../tezwallet_styling.css" text="Receive Funds">
+                                    <graphic>
+                                        <ImageView fitHeight="16.0" fitWidth="12.0" pickOnBounds="true" preserveRatio="true">
+                                            <image>
+                                                <Image url="@../icons/arrow_from_top_regular@2x.png" />
+                                            </image>
+                                        </ImageView>
+                                    </graphic>
+                                    <VBox.margin>
+                                        <Insets />
+                                    </VBox.margin>
+                                    <padding>
+                                        <Insets left="25.0" />
+                                    </padding>
+                                </Button>
+                            </children>
+                            <padding>
+                                <Insets top="15.0" />
+                            </padding>
+                            <VBox.margin>
+                                <Insets left="10.0" right="10.0" />
+                            </VBox.margin>
+                        </VBox>
+                        <VBox prefHeight="370.0" prefWidth="235.0" VBox.vgrow="ALWAYS">
+                            <children>
+                                <Button fx:id="btnDelegatedFunds" alignment="BASELINE_LEFT" graphicTextGap="20.0" mnemonicParsing="false" prefHeight="42.0" prefWidth="240.0" stylesheets="@../tezwallet_styling.css" text="Delegated Funds">
+                                    <graphic>
+                                        <ImageView fitHeight="16.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
+                                            <image>
+                                                <Image url="@../icons/retweet_regular@2x.png" />
+                                            </image>
+                                        </ImageView>
+                                    </graphic>
+                                    <padding>
+                                        <Insets left="25.0" />
+                                    </padding>
+                                </Button>
+                                <Button fx:id="btnBaking" alignment="BASELINE_LEFT" graphicTextGap="20.0" mnemonicParsing="false"  prefHeight="42.0" prefWidth="240.0" stylesheets="@../tezwallet_styling.css" text="Baking">
+                                    <graphic>
+                                        <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                                            <image>
+                                                <Image url="@../icons/layer_plus_regular@2x.png" />
+                                            </image>
+                                        </ImageView>
+                                    </graphic>
+                                    <padding>
+                                        <Insets left="25.0" />
+                                    </padding>
+                                </Button>
+                            </children>
+                            <padding>
+                                <Insets top="15.0" />
+                            </padding>
+                            <VBox.margin>
+                                <Insets left="10.0" right="10.0" />
+                            </VBox.margin>
+                        </VBox>
+                        <BorderPane prefHeight="22.0" prefWidth="222.0">
+                            <left>
+                                <Label fx:id="lblVersion" styleClass="label2" stylesheets="@../tezwallet_styling.css" text="V 1.1.8" textFill="#babdbf" BorderPane.alignment="CENTER">
+                                    <font>
+                                        <Font size="13.0" />
+                                    </font>
+                                </Label>
+                            </left>
+                            <right>
+                                <Button fx:id="btnUpdateAvailable" mnemonicParsing="false"  style="-fx-background-color: #0078D7;" styleClass="button2" stylesheets="@../tezwallet_styling.css" text="Update Available" BorderPane.alignment="CENTER" />
+                            </right>
+                            <padding>
+                                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                            </padding>
+                        </BorderPane>
+                    </children>
+                </VBox>
+            </left>
+            <center>
+                <BorderPane prefHeight="612.0" prefWidth="662.0" BorderPane.alignment="CENTER">
+                    <center>
+                        <VBox alignment="CENTER" prefWidth="662.0" BorderPane.alignment="CENTER">
+                            <children>
+                                <ScrollPane fx:id="contentArea" hbarPolicy="NEVER" prefHeight="526.0" prefWidth="662.0" stylesheets="@../tezwallet_styling.css" VBox.vgrow="ALWAYS" />
+                            </children>
+                        </VBox>
+                    </center>
+                    <top>
+                        <BorderPane prefHeight="66.0" prefWidth="690.0" BorderPane.alignment="CENTER">
+                            <left>
+                                <HBox alignment="CENTER_LEFT" prefHeight="66.0" prefWidth="287.0" spacing="5.0" BorderPane.alignment="CENTER">
+                                    <children>
+                                        <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
+                                            <image>
+                                                <Image url="@../icons/Round-2@2x.png" />
+                                            </image>
+                                        </ImageView>
+                                        <ComboBox prefHeight="40.0" prefWidth="182.0" promptText="Select a wallet" style="-fx-background-color: #ffffff;" />
+                                    </children>
+                                    <padding>
+                                        <Insets left="20.0" right="20.0" />
+                                    </padding>
+                                </HBox>
+                            </left>
+                            <right>
+                                <HBox alignment="CENTER_RIGHT" prefHeight="66.0" prefWidth="348.0" spacing="5.0" BorderPane.alignment="CENTER">
+                                    <children>
+                                        <Button graphicTextGap="10.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="107.0" style="-fx-background-color: #ffffff;" text="All Wallets">
+                                            <graphic>
+                                                <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                                                    <image>
+                                                        <Image url="@../icons/th_large_regular@2x.png" />
+                                                    </image>
+                                                </ImageView>
+                                            </graphic>
+                                        </Button>
+                                        <Pane prefHeight="25.0" prefWidth="1.0" style="-fx-background-color: #D8D9DB;" HBox.hgrow="NEVER">
+                                            <HBox.margin>
+                                                <Insets bottom="20.0" top="20.0" />
+                                            </HBox.margin>
+                                        </Pane>
+                                        <Button fx:id="btnSettings" mnemonicParsing="false"  style="-fx-background-color: #ffffff;">
+                                            <graphic>
+                                                <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                                                    <image>
+                                                        <Image url="@../icons/cog_regular@2x.png" />
+                                                    </image>
+                                                </ImageView>
+                                            </graphic>
+                                        </Button>
+                                        <Pane prefHeight="25.0" prefWidth="1.0" style="-fx-background-color: #D8D9DB;">
+                                            <HBox.margin>
+                                                <Insets bottom="20.0" top="20.0" />
+                                            </HBox.margin>
+                                            <padding>
+                                                <Insets bottom="5.0" top="5.0" />
+                                            </padding>
+                                        </Pane>
+                                        <MenuButton fx:id="btnAccount" mnemonicParsing="false"  style="-fx-background-color: #ffffff;">
+                                            <items>
+                                                <!--                                                <MenuItem fx:id="menuAccount" mnemonicParsing="false" onAction="#handleButtonClick" text="My Account" />-->
+                                                <MenuItem fx:id="menuExit" mnemonicParsing="false"  text="Exit" />
+                                            </items>
+                                            <graphic>
+                                                <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                                                    <image>
+                                                        <Image url="@../icons/user_regular@2x.png" />
+                                                    </image>
+                                                </ImageView>
+                                            </graphic>
+                                        </MenuButton>
+                                    </children>
+                                    <padding>
+                                        <Insets left="20.0" right="20.0" />
+                                    </padding>
+                                </HBox>
+                            </right>
+                        </BorderPane>
+                    </top>
+                    <bottom>
+                        <BorderPane fx:id="bpProgress" prefHeight="18.0" prefWidth="697.0" style="-fx-border-width: 1 0 0 0; -fx-border-color: #ECECEC;" BorderPane.alignment="CENTER">
+                            <left>
+                                <HBox spacing="5.0" BorderPane.alignment="CENTER_LEFT">
+                                    <children>
+                                        <ProgressIndicator prefHeight="4.0" prefWidth="15.0" />
+                                        <Label text="Loading" textFill="#0078d7" />
+                                    </children>
+                                    <padding>
+                                        <Insets bottom="5.0" right="5.0" top="5.0" />
+                                    </padding>
+                                </HBox>
+                            </left>
+                            <right>
+                                <Label fx:id="lblPendingTransations" alignment="CENTER_RIGHT" prefHeight="17.0" prefWidth="402.0" text="No pending transactions" textAlignment="RIGHT" textFill="GREY" BorderPane.alignment="CENTER" />
+                            </right>
+                        </BorderPane>
+                    </bottom>
+                    <BorderPane.margin>
+                        <Insets />
+                    </BorderPane.margin>
+                    <padding>
+                        <Insets left="5.0" right="5.0" />
+                    </padding>
+                </BorderPane>
+            </center>
+        </BorderPane>
+    </children>
+</AnchorPane>

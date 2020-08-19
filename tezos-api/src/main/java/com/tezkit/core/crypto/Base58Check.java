@@ -8,9 +8,9 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 import java.util.Locale;
 
-public class TezosBase58 {
+public class Base58Check {
 
-    private static int CHECKSUM_SIZE = 4;
+    private static int CHECKSUM_SIZE = 4; // in bytes
 
     public static String encode(byte[] data) {
         return Base58.encode(addChecksum(data));
@@ -26,7 +26,7 @@ public class TezosBase58 {
         }
     }
 
-    private static byte[] verifyAndRemoveChecksum(byte[] data) {
+    public static byte[] verifyAndRemoveChecksum(byte[] data) {
         byte[] value = Arrays.copyOfRange(data, 0, data.length - CHECKSUM_SIZE);
         byte[] checksum = Arrays.copyOfRange(data, data.length - CHECKSUM_SIZE, data.length);
         byte[] expectedChecksum = getChecksum(value);
@@ -46,5 +46,3 @@ public class TezosBase58 {
     }
 
 }
-
-

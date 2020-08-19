@@ -1,0 +1,187 @@
+.text {
+    -fx-font-smoothing-type: gray; /* fixes messed up aliasing on Mac */
+}
+.button {
+    -fx-background-color: #3E454C;
+    -fx-text-fill: #e7e5e5;
+    -fx-background-radius: 2px;
+}
+
+.button:hover {
+    -fx-background-color: #8F9397;
+}
+
+.button:pressed {
+    -fx-background-color: #26292C;
+}
+
+.button:focused {
+    -fx-background-color: #585D63;
+}
+
+.button2 {
+    -fx-background-color: #0078D7;
+    -fx-text-fill: #e7e5e5;
+    -fx-background-radius: 2px;
+}
+
+.button2:hover {
+    -fx-background-color: #55A5E4;
+}
+
+.button2:pressed {
+    -fx-background-color: #00508F;
+}
+
+.button2:focused {
+    -fx-background-color: #0078D7;
+}
+
+.label2 {
+    -fx-text-fill: white;
+}
+
+.toggle-button {
+    -fx-text-fill: black;
+    -fx-base: transparent;
+    -fx-background: white;
+    -fx-focus-color: transparent;
+    -fx-border-color: transparent;
+    -fx-effect: null;
+}
+
+.toggle-button:selected {
+    -fx-text-fill: black;
+    -fx-base: transparent;
+    -fx-background: lightgray;
+    -fx-focus-color: transparent;
+    -fx-border-color: transparent;
+    -fx-effect: null;
+}
+
+.scroll-pane {
+    -fx-background-color: white;
+}
+
+.split-pane > .split-pane.divider {
+    -fx-padding: 0 0.75em 0 0.75em;
+}
+.scroll-bar {
+    -fx-font-size: 5px;
+}
+.scroll-bar:horizontal, .scroll-bar:vertical {
+    -fx-background-color: transparent;
+}
+
+.increment-button, .decrement-button {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+}
+
+.scroll-bar:horizontal .track,
+.scroll-bar:vertical .track {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-background-radius: 0em;
+}
+
+.scroll-bar:horizontal .thumb,
+.scroll-bar:vertical .thumb {
+    -fx-background-color: lightgray;
+    -fx-background-radius: 2em;
+}
+
+.scroll-pane > .corner {
+    -fx-background-color: gray;
+}
+
+/*
+
+Table styling
+ */
+
+.table-view
+{
+    -fx-border-color: lightgray;
+    -fx-border-width: 1 1 1 1;
+    -fx-background-color: #F8F9FA;
+}
+.table-view .column-header,
+.table-view .column-header-background .filler {
+    -fx-background-color: #F8F9FA;
+}
+
+.table-view .column-header .label {
+    -fx-text-fill: gray;
+    -fx-font-weight: bold;
+}
+
+.table-view .cell {
+    -fx-cell-size: 32;
+    -fx-alignment: center;
+    -fx-text-fill: gray;
+}
+
+.table-view .typecolumn .cell {
+    -fx-alignment: center;
+}
+
+.table-row-cell:selected {
+    -fx-background-color: #ebedee;
+    -fx-text-background-color: #F8F9FA;
+}
+
+.table-column {
+    /*-fx-alignment: center-right;*/
+}
+
+/* scroll bar starts here */
+
+/* The increment and decrement button CSS class of scrollbar */
+.table-view .increment-button, .table-view .decrement-button {
+    -fx-background-color: transparent;
+    -fx-background-radius: 2em;
+
+}
+
+/* The main scrollbar **track** CSS class  */
+.table-view .scroll-bar:horizontal .track,
+.table-view .scroll-bar:vertical .track {
+    -fx-background-color: transparent;
+    -fx-border-color: derive(#F8F9FA, 80%);
+
+    -fx-background-radius: 2em;
+    -fx-border-radius: 2em;
+}
+
+/* The main scrollbar **thumb** CSS class which we drag every time (movable) */
+.table-view .scroll-bar:horizontal .thumb,
+.table-view .scroll-bar:vertical .thumb {
+    -fx-background-color: derive(#F8F9FA, 90%);
+    -fx-background-insets: 2, 0, 0;
+    -fx-background-radius: 2em;
+
+}
+/*******************************************************************************
+*                                                                             *
+* AreaChart                                                                   *
+*                                                                             *
+******************************************************************************/
+.chart {
+    -fx-padding: 5px;
+}
+.chart-plot-background {
+    -fx-background-color: white;
+}
+.chart-series-area-line {
+    -fx-stroke: dodgerblue;
+    -fx-minor-tick-visible: true;
+    -fx-stroke-width: 1px;
+}
+.chart-area-symbol {
+    -fx-minor-tick-visible: true;
+    -fx-background-color: null,null;
+}
+.series0.chart-series-area-fill {
+    -fx-fill: linear-gradient(to top, white, #EAF5FD);
+}

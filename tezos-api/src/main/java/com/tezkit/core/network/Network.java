@@ -15,13 +15,13 @@ public class Network {
             .version(HttpClient.Version.HTTP_2)
             .build();
 
-    static public HttpResponse<String> get(String url) throws TezosRPCException {
+    static public HttpResponse<String> get(String url) throws RPCException {
         var request = requestBuilder(url).build();
 
         try {
             return checkStatusCode(client.send(request, HttpResponse.BodyHandlers.ofString()));
         } catch (Exception e) {
-            throw new TezosRPCException(e.toString());
+            throw new RPCException(e.toString());
         }
     }
 
@@ -31,7 +31,7 @@ public class Network {
         return client.sendAsync(request, HttpResponse.BodyHandlers.ofString());
     }
 
-    static public HttpResponse<String> post(String url, String data) throws TezosRPCException {
+    static public HttpResponse<String> post(String url, String data) throws RPCException {
         var request = requestBuilder(url)
                 .POST(HttpRequest.BodyPublishers.ofString(data))
                 .build();
@@ -39,7 +39,7 @@ public class Network {
         try {
             return checkStatusCode(client.send(request, HttpResponse.BodyHandlers.ofString()));
         } catch (Exception e) {
-            throw new TezosRPCException(e.toString());
+            throw new RPCException(e.toString());
         }
     }
 
@@ -51,9 +51,9 @@ public class Network {
     }
 
     private static HttpResponse<String> checkStatusCode(HttpResponse<String> response)
-    throws TezosRPCException {
+    throws RPCException {
         if (response.statusCode() > 299 || response.statusCode() < 200) {
-            throw new TezosRPCException(
+            throw new RPCException(
                     "Network error: " + response.statusCode() + response.body());
         }
         return response;
