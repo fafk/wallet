@@ -4,7 +4,7 @@
 
 ✅ No Electron, no JavaScript. 
 
-👨‍💻 Under active developoment. 
+👨‍💻 Under active development. 
 
 ![Wallet Screenshot](https://i.ibb.co/m079bbV/Screenshot-2020-08-19-at-14-15-40.png)
 
