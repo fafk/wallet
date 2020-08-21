@@ -4,4 +4,5 @@ javafx-sdk-11.0.2
 tezosj-sdk-plain-java-1.3.8.jar
 
 .env
+target/
 
