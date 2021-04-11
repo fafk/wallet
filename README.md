@@ -12,7 +12,7 @@
 
 * Wallet - a GUI using the Tezos library 
 * Tezos library 
-    * Query a nod
+    * Query a node
     * Create and forge operations
     * Submit operations to the node
     * Generate a mnemonic and get a keypair from a mnemonic
